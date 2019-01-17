@@ -1,7 +1,30 @@
 {
+  "name": "morse",
+  "description": "Like morse code, when touching the screen.",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "rollup -c ./rollup/rollup.dev.config.js --watch",
+    "build": "rollup -c ./rollup/rollup.build.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/james-cain/morse.git"
+  },
+  "author": "rey shieh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/james-cain/morse/issues"
+  },
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-preset-env": "^1.7.0",
+    "noty": "^3.2.0-beta",
     "rollup": "^1.1.0",
-    "rollup-plugin-babel": "^4.3.0",
+    "rollup-plugin-babel": "3.0.2",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-eslint": "^5.0.0",
     "rollup-plugin-livereload": "^0.6.0",
@@ -9,5 +32,6 @@
     "rollup-plugin-postcss": "^1.6.3",
     "rollup-plugin-serve": "^1.0.0",
     "rollup-plugin-uglify": "^6.0.1"
-  }
+  },
+  "homepage": "https://github.com/james-cain/morse#readme"
 }

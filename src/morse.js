@@ -2,9 +2,8 @@ class Morse {
   constructor(option = {}) {
     this.options = Object.assign({
       el: 'body',
-      code: '___', // include -_UPLR
-      duration: 500,
-      distance: 100,
+      code: '___', // include -_UDLR
+      duration: 400,
       timeout: 2000,
       tapEvent: false,
       matching: () => {},
@@ -13,18 +12,19 @@ class Morse {
       onTimeout: () => {},
     }, option);
 
-    this.el = document.querySelector(this.el);
+    this.el = document.querySelector(this.options.el);
     this.timer = null;
 
     this.tapStartEvent = this.options.tapEvent ? 'touchstart' : 'mousedown';
-    this.tapEndEvent = this.options.tapEvent ? 'touchend' : 'mounseup';
+    this.tapEndEvent = this.options.tapEvent ? 'touchend' : 'mouseup';
 
     this.tapStart = 0;
     this.tapTime = 0;
     this.tapStartX = 0;
     this.tapStartY = 0;
-    this.tapEndX = 0;
-    this.tapEndY = 0;
+    this.distanceX = 0;
+    this.distanceY = 0;
+    this.slideDistance = 0;
 
     this.morseCode = [];
     this.isTimeout = false;
@@ -33,30 +33,14 @@ class Morse {
   }
 
   _addListener() {
+    this._registTapStartEvent = (e) => {
+      this._registTapStartFunc(e);
+    }
+    this._registTapEndEvent = (e) => {
+      this._registTapEndFunc(e);
+    }
     this.el.addEventListener(this.tapStartEvent, this._registTapStartEvent);
     this.el.addEventListener(this.tapEndEvent, this._registTapEndEvent);
-  }
-
-  _registTapStartEvent(e) {
-    console.log('start:');
-    console.log(e);
-    this._stopTimer();
-    this.tapStart = new Date().getTime();
-  }
-
-  _registTapEndEvent(e) {
-    console.log('end:');
-    console.log(e);
-    this.tapTime = new Date().getTime() - this.tapStart;
-    if (!this.isTimeout) {
-      // simple mode: judge longTap and shortTap
-      this.tapTime < this.options.duration ? this.morseCode.push('_') : this.morseCode.push('-');
-      this.options.matching(this.morseCode);
-      this._matchCode(this.morseCode);
-      this._startTimer();
-    } else {
-      this._reset();
-    }
   }
 
   _startTimer() {
@@ -76,10 +60,11 @@ class Morse {
     const codeStr = morseCode.join('');
     if (codeStr === code) {
       this.options.matched();
-    } else {
+      this._reset();
+    } else if (codeStr.length === code.length && codeStr !== code) {
       this.options.unmatched();
+      this._reset();
     }
-    this._reset();
   }
 
   _reset() {
@@ -89,8 +74,44 @@ class Morse {
     this.tapTime = 0;
     this.tapStartX = 0;
     this.tapStartY = 0;
-    this.tapEndX = 0;
-    this.tapEndY = 0;
+    this.distanceX = 0;
+    this.distanceY = 0;
+    this.slideDistance = 0;
+  }
+
+  _registTapStartFunc(e) {
+    this._stopTimer();
+    this.tapStart = new Date().getTime();
+    this.tapStartX = e.x;
+    this.tapStartY = e.y;
+  }
+
+  _registTapEndFunc(e) {
+    this.tapTime = (new Date().getTime()) - this.tapStart;
+    this.distanceX = e.x - this.tapStartX;
+    this.distanceY = e.y - this.tapStartY;
+    if (!this.isTimeout) {
+      this._transformCode();
+      this.options.matching(this.morseCode);
+      this._matchCode(this.morseCode);
+      this._startTimer();
+    } else {
+      this._reset();
+    }
+  }
+
+  _transformCode() {
+    const distanceXAbs = Math.abs(this.distanceX);
+    const distanceYAbs = Math.abs(this.distanceY);
+    if (distanceXAbs > 10 || distanceYAbs > 10) {
+      if (distanceXAbs >= distanceYAbs) {
+        this.distanceX > 0 ? this.morseCode.push('R') : this.morseCode.push('L');
+      } else {
+        this.distanceY > 0 ? this.morseCode.push('D') : this.morseCode.push('U');
+      }
+    } else {
+      this.tapTime < this.options.duration ? this.morseCode.push('_') : this.morseCode.push('-');
+    }
   }
 
   removeListener() {
