@@ -25,11 +25,30 @@ function isPC() {
 
 function operateMatch(codeArr, elemArr) {
   const morseCode = ['_', '-', 'U', 'D', 'L', 'R'];
-  morseCode.forEach((code, index) => {
-    if (code === codeArr[index]) {
-
+  elemArr.forEach((elem, index) => {
+    if (codeArr.length === index + 1) {
+      if (morseCode[index] === codeArr[index]) {
+        elem.classList.remove('right', 'wrong');
+        elem.classList.add('right');
+      } else {
+        elem.classList.remove('right', 'wrong');
+        elem.classList.add('wrong');
+      }
     }
-  })
+  });
+}
+
+function correct(elemArr) {
+  elemArr.forEach((elem) => {
+    elem.classList.remove('right', 'wrong');
+    elem.classList.add('right');
+  });
+}
+
+function reset(elemArr) {
+  elemArr.forEach((elem) => {
+    elem.classList.remove('right', 'wrong');
+  });
 }
 
 const morse = new Morse({
@@ -48,6 +67,7 @@ const morse = new Morse({
       theme: 'bootstrap-v4',
       timeout: 1000,
     }).show();
+    correct([short, long, up, down, left, right]);
   },
   unmatched() {
     console.log('Unmatched...');
@@ -56,6 +76,7 @@ const morse = new Morse({
       theme: 'bootstrap-v4',
       timeout: 1000,
     }).show();
+    reset([short, long, up, down, left, right]);
   },
 });
 

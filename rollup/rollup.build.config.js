@@ -5,7 +5,7 @@ import { uglify } from 'rollup-plugin-uglify';
 export default {
   input: resolve(__dirname, '../src/morse.js'),
   output: {
-    file: resolve(__dirname, '../dist/index.js'),
+    file: resolve(__dirname, '../dist/morse-1.0.0.js'),
     name: 'Morse',
     format: 'umd',
   },

@@ -2,7 +2,7 @@ class Morse {
   constructor(option = {}) {
     this.options = Object.assign({
       el: 'body',
-      code: '___', // include -_UDLR
+      code: '___',
       duration: 400,
       timeout: 2000,
       tapEvent: false,

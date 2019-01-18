@@ -2,7 +2,7 @@
   "name": "morse",
   "description": "Like morse code, when touching the screen.",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "dist/morse-1.0.0.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "rollup -c ./rollup/rollup.dev.config.js --watch",

@@ -7,9 +7,9 @@ import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 
 export default {
-  input: resolve(__dirname, '../lab/index.js'),
+  input: resolve(__dirname, '../docs/index.js'),
   output: {
-    file: resolve(__dirname, '../lab/app.js'),
+    file: resolve(__dirname, '../docs/app.js'),
     name: 'Morse',
     format: 'umd',
   },
@@ -20,7 +20,7 @@ export default {
     babel({
       exclude: 'node_modules/**',
     }),
-    serve(resolve(__dirname, '../lab')),
+    serve(resolve(__dirname, '../docs')),
     livereload(),
   ],
 };

@@ -2291,7 +2291,7 @@
 
 	})));
 
-	//# sourceMappingURL=es6-promise.map
+
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(8)));
 
@@ -3109,7 +3109,7 @@
 	/***/ })
 	/******/ ]);
 	});
-	//# sourceMappingURL=noty.js.map
+
 	});
 
 	var Noty = unwrapExports(noty);
@@ -3161,7 +3161,7 @@
 
 	    this.options = _extends({
 	      el: 'body',
-	      code: '___', // include -_UDLR
+	      code: '___',
 	      duration: 400,
 	      timeout: 2000,
 	      tapEvent: false,
@@ -3318,8 +3318,29 @@
 
 	function operateMatch(codeArr, elemArr) {
 	  var morseCode = ['_', '-', 'U', 'D', 'L', 'R'];
-	  morseCode.forEach(function (code, index) {
-	    if (code === codeArr[index]) ;
+	  elemArr.forEach(function (elem, index) {
+	    if (codeArr.length === index + 1) {
+	      if (morseCode[index] === codeArr[index]) {
+	        elem.classList.remove('right', 'wrong');
+	        elem.classList.add('right');
+	      } else {
+	        elem.classList.remove('right', 'wrong');
+	        elem.classList.add('wrong');
+	      }
+	    }
+	  });
+	}
+
+	function correct(elemArr) {
+	  elemArr.forEach(function (elem) {
+	    elem.classList.remove('right', 'wrong');
+	    elem.classList.add('right');
+	  });
+	}
+
+	function reset(elemArr) {
+	  elemArr.forEach(function (elem) {
+	    elem.classList.remove('right', 'wrong');
 	  });
 	}
 
@@ -3339,6 +3360,7 @@
 	      theme: 'bootstrap-v4',
 	      timeout: 1000
 	    }).show();
+	    correct([short, long, up, down, left, right]);
 	  },
 	  unmatched: function unmatched() {
 	    console.log('Unmatched...');
@@ -3347,6 +3369,7 @@
 	      theme: 'bootstrap-v4',
 	      timeout: 1000
 	    }).show();
+	    reset([short, long, up, down, left, right]);
 	  }
 	});
 
