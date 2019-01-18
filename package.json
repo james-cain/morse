@@ -8,6 +8,9 @@
     "dev": "rollup -c ./rollup/rollup.dev.config.js --watch",
     "build": "rollup -c ./rollup/rollup.build.config.js"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/james-cain/morse.git"
